@@ -3,14 +3,12 @@ using System.Collections;
 using UnityEditor;
 
 [CustomEditor(typeof(StateMachine))]
-public class StateMachineEditor : Editor 
-{
-    public override void OnInspectorGUI()
-    {
-        StateMachine machine = (StateMachine)target;
+public class StateMachineEditor : Editor {
 
-        base.DrawDefaultInspector();
+	public override void OnInspectorGUI()
+	{
+		base.DrawDefaultInspector();
 
-        EditorGUILayout.ObjectField(machine.CurrentState, typeof(State));
-    }
+	}
 }
+

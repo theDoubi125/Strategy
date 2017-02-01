@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class State : UnityEngine.Object
+public class State : ScriptableObject
 {
     private StateMachine m_stateMachine;
+
     protected Transform transform { get { return m_stateMachine.transform; } }
 
     public void SetStateMachine(StateMachine machine)
@@ -51,6 +52,9 @@ public class StateMachine : MonoBehaviour
 
     private Stack<State> m_states = new Stack<State>();
 
+	[SerializeField]
+	private State m_currentState = null;
+
     public State CurrentState
     {
         get
@@ -79,6 +83,7 @@ public class StateMachine : MonoBehaviour
         m_states.Push(state);
         state.SetStateMachine(this);
         CurrentState.OnEnter();
+		m_currentState = CurrentState; 
     }
 
     public void PopState()
@@ -86,7 +91,8 @@ public class StateMachine : MonoBehaviour
         m_states.Pop().OnExit();
         if (m_states.Count <= 0)
             throw new UnityException("State machine stack empty");
-        CurrentState.OnEnter();
+		CurrentState.OnEnter();
+		m_currentState = CurrentState;
     }
 
     public void SwitchState(State state)
@@ -94,6 +100,7 @@ public class StateMachine : MonoBehaviour
         m_states.Pop().OnExit();
         m_states.Push(state);
         state.SetStateMachine(this);
-        CurrentState.OnEnter();
+		CurrentState.OnEnter();
+		m_currentState = CurrentState;
     }
 }
