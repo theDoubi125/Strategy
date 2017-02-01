@@ -59,15 +59,14 @@ public class StateMachine : MonoBehaviour
     {
         get
         {
-            if(m_states.Count > 0)
-                return m_states.Peek();
-            return null;
+            return m_currentState;
         }
     }
 
 	void Start ()
     {
-        m_initState = new MoveState(Vector3.right * 10, 1);
+        m_initState = ScriptableObject.CreateInstance(typeof(MoveState)) as MoveState;
+        (m_initState as MoveState).Init(Vector3.right * 10, 1);
         PushState(m_initState);
 	}
 	
@@ -78,29 +77,33 @@ public class StateMachine : MonoBehaviour
 
     public void PushState(State state)
     {
-        if(m_states.Count > 0)
-            CurrentState.OnExit();
+        if(m_currentState != null)
+            m_currentState.OnExit();
         m_states.Push(state);
+        m_currentState = state; 
         state.SetStateMachine(this);
-        CurrentState.OnEnter();
-		m_currentState = CurrentState; 
+        m_currentState.OnEnter();
     }
 
     public void PopState()
     {
-        m_states.Pop().OnExit();
+        State lastState = m_states.Pop();
+        lastState.OnExit();
+        ScriptableObject.Destroy(lastState);
         if (m_states.Count <= 0)
             throw new UnityException("State machine stack empty");
-		CurrentState.OnEnter();
-		m_currentState = CurrentState;
+        m_currentState = m_states.Peek();
+		m_currentState.OnEnter();
     }
 
     public void SwitchState(State state)
     {
-        m_states.Pop().OnExit();
+        State lastState = m_states.Pop();
+        lastState.OnExit();
+        ScriptableObject.Destroy(lastState);
         m_states.Push(state);
         state.SetStateMachine(this);
-		CurrentState.OnEnter();
-		m_currentState = CurrentState;
+        m_currentState = state;
+        m_currentState.OnEnter();
     }
 }

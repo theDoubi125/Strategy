@@ -12,7 +12,7 @@ public class MoveState : State
     [SerializeField]
     private float m_time;
 
-    public MoveState(Vector3 direction, float speed)
+    public void Init(Vector3 direction, float speed)
     {
         m_direction = direction;
         m_speed = speed;
