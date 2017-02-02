@@ -35,10 +35,43 @@ public class IntVector3
     }
 }
 
+[System.Serializable]
+public class IntVector2
+{
+	public int x, y;
+
+	public IntVector2(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	public IntVector2(Vector2 pos)
+	{
+		x = Mathf.RoundToInt(pos.x);
+		y = Mathf.RoundToInt(pos.y);
+	}
+
+	public static IntVector2 operator+(IntVector2 A, IntVector2 B)
+	{
+		return new IntVector2(A.x + B.x, A.y + B.y);
+	}
+
+	public static implicit operator Vector2(IntVector2 pos)
+	{
+		if (pos == null)
+			throw new Exception("Cannot cast a null IntVector2 into Vector2");
+		return new Vector2(pos.x, pos.y);
+	}
+}
+
 [CreateAssetMenu(fileName="GridData", menuName="Global/GridData", order=1000)]
 public class GridData : ScriptableObject
 {
     [SerializeField]
-    private Vector3 m_cellSize;
-    public Vector3 CellSize { get { return m_cellSize; } }
+    private float m_cellSize;
+
+    public float CellSize { get { return m_cellSize; } }
+	public float CellWidth { get { return Mathf.Sqrt(3) / 2 * CellHeight; } }
+	public float CellHeight { get { return CellSize * 2; } }
 }

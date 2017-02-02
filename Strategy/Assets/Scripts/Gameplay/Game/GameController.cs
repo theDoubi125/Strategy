@@ -7,12 +7,12 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set;}
 
-    private GridData m_gridData;
+	public GridData GridData { get; private set; }
 
 	void Start ()
     {
         Instance = this;
-        m_gridData = Resources.Load<GridData>("Global/GridData");
+        GridData = Resources.Load<GridData>("Global/GridData");
 	}
 	
 	void Update ()
