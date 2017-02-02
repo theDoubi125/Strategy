@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
 
 	public GridData GridData { get; private set; }
 
-	void Start ()
+	void Awake()
     {
         Instance = this;
         GridData = Resources.Load<GridData>("Global/GridData");

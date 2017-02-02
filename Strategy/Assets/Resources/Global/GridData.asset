@@ -11,4 +11,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a0f63fcefc279439cb7774dace60a4, type: 3}
   m_Name: GridData
   m_EditorClassIdentifier: 
-  m_cellSize: {x: 1, y: 1, z: 1}
+  m_cellSize: 1
