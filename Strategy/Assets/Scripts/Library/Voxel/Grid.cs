@@ -28,12 +28,17 @@ public class GridNode
     {
         get
         {
-            float x = m_pos.x * GameController.Instance.GridData.CellWidth;
-            if ((m_pos.y > 0 && m_pos.y % 2 > 0) || (m_pos.y < 0 && -m_pos.y % 2 > 0))
-                x += GameController.Instance.GridData.CellWidth / 2;
+            float x = GameController.Instance.GridData.CellWidth * (m_pos.x + (float)m_pos.y / 2);
             float z = m_pos.y * GameController.Instance.GridData.CellHeight * 3 / 4;
-            return new Vector3(z, Height, x);
+            return new Vector3(x, Height, z);
         }
+    }
+
+    public static IntVector2 getCellFromWorldPos(Vector3 pos)
+    {
+        float w = GameController.Instance.GridData.CellWidth;
+        float h = GameController.Instance.GridData.CellHeight;
+        return new IntVector2(Mathf.RoundToInt(pos.x/w - 2 * pos.z / (3 * h)), Mathf.RoundToInt(4 * pos.z / (3 * h)));
     }
 }
 
@@ -42,12 +47,12 @@ public class Grid : MonoBehaviour
     private Dictionary<IntVector2, CellRenderer> m_cells = new Dictionary<IntVector2, CellRenderer>();
 
     [SerializeField]
-    private GameObject m_cellPrefab;
+    private GameObject m_cellPrefab = null;
 
     [SerializeField]
-    private IntVector2 m_min;
+    private IntVector2 m_min = new IntVector2(0, 0);
     [SerializeField]
-    private IntVector2 m_max;
+    private IntVector2 m_max = new IntVector2(0, 0);
 
 	void Start ()
 	{

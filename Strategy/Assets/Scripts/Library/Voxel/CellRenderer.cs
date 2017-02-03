@@ -7,8 +7,10 @@ public class CellRenderer : MonoBehaviour
     [SerializeField]
     private GridNode m_node = new GridNode(new IntVector2(0, 0), 0);
 
+    public GridNode GridNode { get { return m_node; } }
+
     [SerializeField]
-    private Material m_material;
+    private Material m_material = null;
 
     private Mesh m_mesh;
 
@@ -32,7 +34,7 @@ public class CellRenderer : MonoBehaviour
         uvs.Add(new Vector2(0, 0));
         for(int i=0; i<6; i++)
         {
-            vertices.Add(new Vector3(Mathf.Cos(i * Mathf.PI / 3), 0, Mathf.Sin(i * Mathf.PI / 3)));
+            vertices.Add(new Vector3(Mathf.Cos((i + 1.0f/2) * Mathf.PI / 3), 0, Mathf.Sin((i + 1.0f/2) * Mathf.PI / 3)));
             uvs.Add(new Vector2(1, 1));
         }
 
