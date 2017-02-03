@@ -5,13 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private IntVector2 m_cursorSelection;
-    private int m_gridLayerMask;
     private Camera m_camera;
 
 	void Start ()
     {
         m_camera = GetComponent<Camera>();
-        m_gridLayerMask = LayerMask.NameToLayer("Grid");
 	}
 	
 	void Update ()
@@ -21,10 +19,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             m_cursorSelection = GridNode.getCellFromWorldPos(hit.point);
-            Debug.Log("RAYCAST SUCCESS");
         }
-        else 
-            Debug.Log("RAYCAST FAIL");
 	}
 
     void OnDrawGizmos()
