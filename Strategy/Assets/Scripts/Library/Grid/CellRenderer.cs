@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class CellRenderer : MonoBehaviour
 {
     [SerializeField]
-    private GridNode m_node = new GridNode(new IntVector2(0, 0), 0);
+    private GridNode m_node = null;
 
     public GridNode GridNode { get { return m_node; } }
 

@@ -62,7 +62,47 @@ public class IntVector2
 		if (pos == null)
 			throw new Exception("Cannot cast a null IntVector2 into Vector2");
 		return new Vector2(pos.x, pos.y);
-	}
+    }
+
+    public override bool Equals(object obj)
+    {
+        return x == (obj as IntVector2).x && y == (obj as IntVector2).y;
+    }
+
+    public static bool operator==(IntVector2 A, IntVector2 B)
+    {
+        if(ReferenceEquals(A, B))
+            return true;
+        if (ReferenceEquals(A, null) || ReferenceEquals(B, null))
+            return false;
+        return A.x == B.x && A.y == B.y;
+    }
+
+    public static bool operator!=(IntVector2 A, IntVector2 B)
+    {
+        if(ReferenceEquals(A, B))
+            return false;
+        if (ReferenceEquals(A, null) || ReferenceEquals(B, null))
+            return true;
+        return A.x != B.x || A.y != B.y;
+    }
+
+    public override int GetHashCode()
+    {
+        return x.GetHashCode() ^ y.GetHashCode();
+    }
+}
+
+[System.Serializable]
+public class IV2
+{
+    public int x, y;
+
+    public IV2(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 }
 
 [CreateAssetMenu(fileName="GridData", menuName="Global/GridData", order=1000)]
